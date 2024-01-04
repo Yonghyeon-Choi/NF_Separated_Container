@@ -1,0 +1,26 @@
+version: "3"
+services:
+  mongo:
+    container_name: 1_mongo
+    image: 1_mongo:latest
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+      - 3000:3000
+    networks:
+      default_network_name:
+        ipv4_address: default_ip.1
+    volumes:
+      - ./data:/data/db
+    stdin_open: true
+    tty: true
+    privileged: true
+    entrypoint: /sbin/init
+
+networks:
+  default_network_name:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: default_ip.0/24
+          gateway: default_ip.252

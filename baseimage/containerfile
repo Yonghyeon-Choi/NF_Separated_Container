@@ -1,0 +1,30 @@
+FROM ubuntu:22.04
+ENV TZ=Asia/Seoul
+RUN apt-get update && apt-get upgrade -y && \
+	apt-get install -y iptables curl net-tools iproute2 init systemd \
+		nano vim iputils-ping equivs
+RUN ln -fs /usr/share/zoneinfo/Asia /etc/localtime && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata && \
+    apt-get install -y software-properties-common
+
+RUN set -x \
+&& echo "\
+Section: misc\n\
+Priority: optional\n\
+Standards-Version: 3.9.2\n\
+\n\
+Package: mongodb\n\
+Version: 0:0\n\
+Maintainer: Yonghyeon Choi\n\
+Architecture: all\n\
+Description: Dummy to solve dependencies." > /tmp/mongodb_0.0_dummy \
+&& cat /tmp/mongodb_0.0_dummy
+
+RUN cd /tmp && equivs-build * && \
+    dpkg -i mongodb_0_all.deb && cd / && \
+    apt list --installed | grep mongodb
+
+RUN add-apt-repository ppa:open5gs/latest -y && \
+    apt-get update
+
+CMD ["/sbin/init"]
