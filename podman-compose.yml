@@ -1,4 +1,11 @@
 version: "3"
+networks:
+  default_network_name:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: default_ip.0/24
+          gateway: default_ip.252 # 스위치 254 설정후 변경
 services:
   mongo:
     container_name: 1_mongo
@@ -16,11 +23,3 @@ services:
     tty: true
     privileged: true
     entrypoint: /sbin/init
-
-networks:
-  default_network_name:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: default_ip.0/24
-          gateway: default_ip.252

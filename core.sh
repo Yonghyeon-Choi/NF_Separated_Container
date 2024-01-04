@@ -128,17 +128,18 @@ run() {
 }
 
 stop_n_remove() {
-  net_name=`podman network ls | grep 5g- | awk '{ print $2 }'`
   podman-compose -f podman-compose-run.yml down
   rm -rf podman-compose-run.yml
   rm -rf ./baseimage/db_container_run.sh
   
   slave_nic=`nmcli con show | grep bridge-slave | awk '{ print $1 }'`
+  podman_nic=`podman network ls | grep core | awk '{ print $2 }'`
   nmcli con show
   nmcli con del ${slave_nic}
   nmcli con show
-  podman network rm ${net_name}
+  podman network rm ${podman_nic}
   podman network ls
+  nmcli con show
 }
 
 main() {
