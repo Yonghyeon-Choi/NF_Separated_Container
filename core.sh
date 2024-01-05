@@ -87,7 +87,7 @@ make_db_container() {
     sed -i "s/default_ip/$1.1/g" ./baseimage/db_container_run.sh
     podman cp ./baseimage/db_container_run.sh tmp:/
 
-    podman exec -it tmp /bin/bash ./db_container_run.sh
+    podman exec -it tmp /bin/bash ./db_container-run.sh
 
     sleep 3
 
@@ -95,7 +95,7 @@ make_db_container() {
 
     podman stop tmp && podman rm tmp
 
-    net_name=`podman network ls | grep 5g- | awk '{ print $2 }'`
+    net_name=`podman network ls | grep core | awk '{ print $2 }'`
     podman network rm ${net_name}
     podman network ls
   fi
@@ -123,23 +123,42 @@ run() {
   sed -i "s/default_ip/$1/g" ./podman-compose-run.yml
 
   podman-compose -f podman-compose-run.yml up -d
-  podcninic=`nmcli con show | grep cni | awk '{ print $1 }'`
-  nmcli con add type bridge-slave ifname "$2" master "${podcninic}"
+  core_net_name=`podman network ls | grep core | awk '{ print $2 }'`
+  pod_cni_nic=`podman network inspect $core_net_name | grep network_interface | awk '{ print $2 }'`
+  nmcli con add type bridge-slave ifname "$2" master "${pod_cni_nic:1:-2}"
+
+  echo && echo
+  echo "###################################################################################"
+  podman ps -a
+  echo "###################################################################################"
 }
 
 stop_n_remove() {
+  echo
+  podman ps -a
   podman-compose -f podman-compose-run.yml down
   rm -rf podman-compose-run.yml
-  rm -rf ./baseimage/db_container_run.sh
+  rm -rf ./baseimage/db_container-run.sh
   
   slave_nic=`nmcli con show | grep bridge-slave | awk '{ print $1 }'`
-  podman_nic=`podman network ls | grep core | awk '{ print $2 }'`
+  core_net_name=`podman network ls | grep core | awk '{ print $2 }'`
+  echo
   nmcli con show
+  echo
   nmcli con del ${slave_nic}
+  echo
   nmcli con show
-  podman network rm ${podman_nic}
+  echo
+  podman network rm ${core_net_name}
+  echo
   podman network ls
+  echo
   nmcli con show
+  echo && echo
+  echo "###############################################################################"
+  podman ps -a
+  echo
+  echo "###############################################################################"
 }
 
 main() {
@@ -204,5 +223,3 @@ main() {
 
 setup_colors
 main "$@"
- 
-

@@ -1,19 +1,19 @@
-FROM  mongo:7.0.5-rc0-jammy
+FROM ubuntu:default 
 
 RUN mkdir -p /etc/apt/keyrings
 RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
 RUN NODE_MAJOR=20 && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
 RUN apt-get update && apt-get install nodejs -y
 
-#RUN systemctl stop mongod
+RUN systemctl stop mongod
 ENV CONIP=0.0.0.0
 RUN sed -i "s/127.0.0.1/$CONIP/g" /etc/mongod.conf && \
     curl -fsSL https://open5gs.org/open5gs/assets/webui/install | bash -
 
 
-#RUN systemctl start mongod && systemctl status mongod && \
-#    sleep 10 && \
-#    netstat -nap | grep "$CONIP:27017"
+RUN systemctl start mongod && systemctl status mongod && \
+    sleep 10 && \
+    netstat -nap | grep "$CONIP:27017"
 
 # mongosh "mongodb://$CONIP:27017/open5gs"
 # db.accounts.find()
