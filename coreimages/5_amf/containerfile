@@ -1,0 +1,8 @@
+FROM ubuntu:default
+
+ENV CONIP=default_ip
+RUN apt-get install -y open5gs-amf &&\
+    sed -i "s/127.0.0/$CONIP/g" /etc/open5gs/amf.yaml &&\
+    sed -i "s/mcc: 999/mcc: 001/g" /etc/open5gs/amf.yaml &&\
+    sed -i "s/mnc: 70/mnc: 01/g" /etc/open5gs/amf.yaml &&\
+    systemctl retart open5gs-amfd

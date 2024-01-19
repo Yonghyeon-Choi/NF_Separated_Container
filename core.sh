@@ -104,6 +104,7 @@ make_db_container() {
 run() {
   sctp_check
   echo "Create 5G network : Range $1.x/24, Bridge Slave NIC Name $2"
+
   # addalias=`cat /etc/profile | grep 'podman exec'`
   # if [ -z "$addalias" ]; then
   #   cat <<EOF>> /etc/profile
@@ -111,6 +112,7 @@ run() {
   #     alias status='/bin/bash systemctl status xxxd'
   #   EOF
   # fi
+
   ckimage=`podman images | grep ubuntu:default`
   if [ -z "$ckimage" ]; then
     podman build -t ubuntu:default -f ./baseimage/containerfile
@@ -118,6 +120,7 @@ run() {
   
   make_db_container "$1" "$2"
 
+  
   cp podman-compose.yml podman-compose-run.yml
   sed -i "s/default_network_name/core/g" ./podman-compose-run.yml
   sed -i "s/default_ip/$1/g" ./podman-compose-run.yml
