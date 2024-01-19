@@ -7,16 +7,13 @@
 
 - Usage
   - ./core.sh -net xxx.xxx.xxx -name yyyy 
-  |
-  | -net        : Network range to create container network boundary.
-  |             : xxx.xxx.xxx(String='Number+dot')   
-  |
-  | -name       : Slave NIC Network name.
+    -net        : Network range to create container network boundary.
+                : xxx.xxx.xxx(String='Number+dot')   
+    -name       : Slave NIC Network name.
                 : yyyy(String, ex. ens8) 
 
   - ./core.sh -rm
-  |
-  | -rm         : Stop all containers and Remove network.
+    -rm         : Stop all containers and Remove network.
 
   - ./core.sh -h or --help
-  | -h or --help  : usage
+    -h or --help  : usage
