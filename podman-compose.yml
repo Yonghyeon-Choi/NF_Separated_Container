@@ -167,6 +167,8 @@ services:
     tty: true
     privileged: true
     entrypoint: /sbin/init
+    depends_on:
+      - udr
 
   upf:
     container_name: 5_upf
@@ -181,6 +183,8 @@ services:
     tty: true
     privileged: true
     entrypoint: /sbin/init
+    depends_on:
+      - udr
 
   nrf:
     container_name: 5_nrf
@@ -195,6 +199,8 @@ services:
     tty: true
     privileged: true
     entrypoint: /sbin/init
+    depends_on:
+      - udr
 
   scp:
     container_name: 5_scp
@@ -209,6 +215,8 @@ services:
     tty: true
     privileged: true
     entrypoint: /sbin/init
+    depends_on:
+      - udr
 
   ausf:
     container_name: 5_ausf
@@ -223,6 +231,8 @@ services:
     tty: true
     privileged: true
     entrypoint: /sbin/init
+    depends_on:
+      - udr
 
   pcf:
     container_name: 5_pcf
@@ -237,6 +247,8 @@ services:
     tty: true
     privileged: true
     entrypoint: /sbin/init
+    depends_on:
+      - udr
 
   nssf:
     container_name: 5_nssf
@@ -251,6 +263,8 @@ services:
     tty: true
     privileged: true
     entrypoint: /sbin/init
+    depends_on:
+      - udr
 
   bsf:
     container_name: 5_bsf
@@ -265,3 +279,5 @@ services:
     tty: true
     privileged: true
     entrypoint: /sbin/init
+    depends_on:
+      - udr

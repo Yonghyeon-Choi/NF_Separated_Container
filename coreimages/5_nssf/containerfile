@@ -1,0 +1,6 @@
+FROM ubuntu:default 
+
+ENV CONIP=default_ip
+RUN apt-get install -y open5gs-nssf &&\
+    sed -i "s/127.0.0.14/$CONIP/g" /etc/open5gs/nssf.yaml &&\
+    systemctl restart open5gs-nssfd
