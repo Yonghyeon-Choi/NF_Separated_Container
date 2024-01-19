@@ -2,5 +2,4 @@ FROM ubuntu:default
 
 ENV CONIP=default_ip
 RUN apt-get install -y open5gs-sgwu &&\
-    sed -i "s/127.0.0/$CONIP/g" /etc/open5gs/sgwu.yaml &&\
-    systemctl restart open5gs-sgwud
+    sed -i "s/127.0.0/$CONIP/g" /etc/open5gs/sgwu.yaml

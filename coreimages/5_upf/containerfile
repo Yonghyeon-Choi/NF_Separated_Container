@@ -20,5 +20,4 @@ RUN if ! grep "ogstun" /proc/net/dev > /dev/null; then &&\
     iptables -I INPUT -i ogstun -j ACCEPT &&\
     iptables -I INPUT -s 10.45.0.0/16 -j DROP &&\
     ip6tables -I INPUT -s 2001:db8:cafe::/48 -j DROP &&\
-    iptables -I FORWARD -s 10.45.0.0/16 -d $CONIP.0/24 -j DROP &&\
-    systemctl restart open5gs-upfd
+    iptables -I FORWARD -s 10.45.0.0/16 -d $CONIP.0/24 -j DROP

@@ -2,5 +2,4 @@ FROM ubuntu:default
 
 ENV CONIP=default_ip
 RUN apt-get install -y open5gs-ausf &&\
-    sed -i "s/127.0.0/$CONIP/g" /etc/open5gs/ausf.yaml &&\
-    systemctl restart open5gs-ausfd
+    sed -i "s/127.0.0/$CONIP/g" /etc/open5gs/ausf.yaml

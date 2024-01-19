@@ -3,5 +3,4 @@ FROM ubuntu:default
 ENV CONIP=default_ip
 RUN apt-get install -y open5gs-udr &&\
     sed -i "s/127.0.0/$CONIP/g" /etc/open5gs/udr.yaml &&\
-    sed -i "s/localhost/$CONIP.1:27017/g" /etc/open5gs/udr.yaml &&\
-    systemctl restart open5gs-udrd
+    sed -i "s/localhost/$CONIP.1:27017/g" /etc/open5gs/udr.yaml

@@ -6,5 +6,4 @@ RUN apt-get install -y open5gs-mme &&\
     sed -i "s/#No_IPv6/No_IPv6/g" /etc/freeDiameter/mme.conf &&\
     sed -i "s/127.0.0/$CONIP/g" /etc/open5gs/mme.yaml &&\
     sed -i "s/mcc: 999/mcc: 001/g" /etc/open5gs/mme.yaml &&\
-    sed -i "s/mnc: 70/mnc: 01/g" /etc/open5gs/mme.yaml &&\
-    systemctl restart open5gs-mmed
+    sed -i "s/mnc: 70/mnc: 01/g" /etc/open5gs/mme.yaml

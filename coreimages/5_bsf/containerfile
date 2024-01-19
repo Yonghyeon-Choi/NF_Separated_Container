@@ -2,5 +2,4 @@ FROM ubuntu:default
 
 ENV CONIP=default_ip
 RUN apt-get install -y open5gs-bsf &&\
-    sed -i "s/127.0.0/$CONIP/g" /etc/open5gs/bsf.yaml &&\
-    systemctl restart open5gs-bsfd
+    sed -i "s/127.0.0/$CONIP/g" /etc/open5gs/bsf.yaml
