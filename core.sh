@@ -62,10 +62,10 @@ sctp_check() {
   if [ -z "$os" ]; then
     if [$os == "centos"]; then
       yum install -y kernel-modules-extra
+      modprobe sctp
     elif [$os == "ubuntu"]; then
-      apt update && apt install -y kernel-modules-extra
+      apt update && apt install -y libsctp-dev lksctp-tools
     fi
-    modprobe sctp
   else
     msg "${GREEN}'kernel-modules-extra' is already installed.${NOFORMAT}"
   fi
@@ -131,6 +131,7 @@ run() {
   core_net_name=`podman network ls | grep core | awk '{ print $2 }'`
   pod_cni_nic=`podman network inspect $core_net_name | grep network_interface | awk '{ print $2 }'`
   nmcli con add type bridge-slave ifname "$2" master "${pod_cni_nic:1:-2}"
+  podman exec -it 5_upf /bin/bash ./iptable-set.sh  
 
   echo && echo
   echo "###################################################################################"

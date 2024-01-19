@@ -29,6 +29,7 @@ services:
   hss:
     container_name: 4_hss
     build:
+      image: hss:latest
       context: ./coreimages-run/4_hss
       dockerfile: containerfile
     restart: unless-stopped
@@ -45,6 +46,7 @@ services:
   pcrf:
     container_name: 4_pcrf
     build:
+      image: pcrf:latest
       context: ./coreimages-run/4_pcrf
       dockerfile: containerfile
     restart: unless-stopped
@@ -61,6 +63,7 @@ services:
   mme:
     container_name: 4_mme
     build:
+      image: mme:latest
       context: ./coreimages-run/4_mme
       dockerfile: containerfile
     restart: unless-stopped
@@ -77,6 +80,7 @@ services:
   sgwc:
     container_name: 4_sgwc
     build:
+      image: sgwc:latest
       context: ./coreimages-run/4_sgwc
       dockerfile: containerfile
     restart: unless-stopped
@@ -93,6 +97,7 @@ services:
   sgwu:
     container_name: 4_sgwu
     build:
+      image: sgwu:latest
       context: ./coreimages-run/4_sgwu
       dockerfile: containerfile
     restart: unless-stopped
@@ -109,6 +114,7 @@ services:
   udr:
     container_name: 5_udr
     build:
+      image: udr:latest
       context: ./coreimages-run/5_udr
       dockerfile: containerfile
     restart: unless-stopped
@@ -125,6 +131,7 @@ services:
   udm:
     container_name: 5_udm
     build:
+      image: udm:latest
       context: ./coreimages-run/5_udm
       dockerfile: containerfile
     restart: unless-stopped
@@ -141,6 +148,7 @@ services:
   smf:
     container_name: 5_smf
     build:
+      image: smf:latest
       context: ./coreimages-run/5_smf
       dockerfile: containerfile
     restart: unless-stopped
@@ -157,6 +165,7 @@ services:
   amf:
     container_name: 5_amf
     build:
+      image: amf:latest
       context: ./coreimages-run/5_amf
       dockerfile: containerfile
     restart: unless-stopped
@@ -173,6 +182,7 @@ services:
   upf:
     container_name: 5_upf
     build:
+      image: upf:latest
       context: ./coreimages-run/5_upf
       dockerfile: containerfile
     restart: unless-stopped
@@ -189,6 +199,7 @@ services:
   nrf:
     container_name: 5_nrf
     build:
+      image: nrf:latest
       context: ./coreimages-run/5_nrf
       dockerfile: containerfile
     restart: unless-stopped
@@ -205,6 +216,7 @@ services:
   scp:
     container_name: 5_scp
     build:
+      image: scp:latest
       context: ./coreimages-run/5_scp
       dockerfile: containerfile
     restart: unless-stopped
@@ -221,6 +233,7 @@ services:
   ausf:
     container_name: 5_ausf
     build:
+      image: ausf:latest
       context: ./coreimages-run/5_ausf
       dockerfile: containerfile
     restart: unless-stopped
@@ -237,6 +250,7 @@ services:
   pcf:
     container_name: 5_pcf
     build:
+      image: pcf:latest
       context: ./coreimages-run/5_pcf
       dockerfile: containerfile
     restart: unless-stopped
@@ -253,6 +267,7 @@ services:
   nssf:
     container_name: 5_nssf
     build:
+      image: nssf:latest
       context: ./coreimages-run/5_nssf
       dockerfile: containerfile
     restart: unless-stopped
@@ -269,7 +284,8 @@ services:
   bsf:
     container_name: 5_bsf
     build:
-      context: ./coreimages-run/5_udm
+      image: bsf:latest
+      context: ./coreimages-run/5_bsf
       dockerfile: containerfile
     restart: unless-stopped
     networks:
