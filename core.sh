@@ -104,7 +104,7 @@ make_db_container() {
 run() {
   sctp_check
   echo "Create 5G network : Range $1.x/24, Bridge Slave NIC Name $2"
-
+ 
   # addalias=`cat /etc/profile | grep 'podman exec'`
   # if [ -z "$addalias" ]; then
   #   cat <<EOF>> /etc/profile
@@ -112,7 +112,7 @@ run() {
   #     alias status='/bin/bash systemctl status xxxd'
   #   EOF
   # fi
-
+  
   ckimage=`podman images | grep ubuntu:default`
   if [ -z "$ckimage" ]; then
     podman build -t ubuntu:default -f ./baseimage/containerfile
@@ -120,7 +120,9 @@ run() {
   
   make_db_container "$1" "$2"
 
-  
+  cp -r ./coreimages coreimages-run
+  sed -i "s/default_ip/$1/g" ./coreimages-run/*/*
+
   cp podman-compose.yml podman-compose-run.yml
   sed -i "s/default_network_name/core/g" ./podman-compose-run.yml
   sed -i "s/default_ip/$1/g" ./podman-compose-run.yml
@@ -134,6 +136,7 @@ run() {
   echo "###################################################################################"
   podman ps -a
   echo "###################################################################################"
+  echo && echo
 }
 
 stop_n_remove() {
@@ -142,6 +145,7 @@ stop_n_remove() {
   podman-compose -f podman-compose-run.yml down
   rm -rf podman-compose-run.yml
   rm -rf ./baseimage/db_container-run.sh
+  rm -rf ./coreimages-run
   
   slave_nic=`nmcli con show | grep bridge-slave | awk '{ print $1 }'`
   core_net_name=`podman network ls | grep core | awk '{ print $2 }'`
@@ -162,6 +166,7 @@ stop_n_remove() {
   podman ps -a
   echo
   echo "###############################################################################"
+  echo && echo
 }
 
 main() {

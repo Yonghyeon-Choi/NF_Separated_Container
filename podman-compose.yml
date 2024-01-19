@@ -25,11 +25,43 @@ services:
     tty: true
     privileged: true
     entrypoint: /sbin/init
-  
-  mme:
-    container_name: 2_mme
+ 
+  hss:
+    container_name: 4_hss
     build:
-      context:./coreimages/2_mme
+      context: ./coreimages-run/4_hss
+      dockerfile: containerfile
+    restart: unless-stopped
+    networks:
+      default_network_name:
+        ipv4_address: default_ip.8
+    stdin_open: true
+    tty: true
+    privileged: true
+    entrypoint: /sbin/init
+    depends_on:
+      - mongo
+
+  pcrf:
+    container_name: 4_pcrf
+    build:
+      context: ./coreimages-run/4_pcrf
+      dockerfile: containerfile
+    restart: unless-stopped
+    networks:
+      default_network_name:
+        ipv4_address: default_ip.9
+    stdin_open: true
+    tty: true
+    privileged: true
+    entrypoint: /sbin/init
+    depends_on:
+      - mongo
+
+  mme:
+    container_name: 4_mme
+    build:
+      context: ./coreimages-run/4_mme
       dockerfile: containerfile
     restart: unless-stopped
     networks:
@@ -39,5 +71,197 @@ services:
     tty: true
     privileged: true
     entrypoint: /sbin/init
-  
-  
+    depends_on:
+      - hss
+
+  sgwc:
+    container_name: 4_sgwc
+    build:
+      context: ./coreimages-run/4_sgwc
+      dockerfile: containerfile
+    restart: unless-stopped
+    networks:
+      default_network_name:
+        ipv4_address: default_ip.3
+    stdin_open: true
+    tty: true
+    privileged: true
+    entrypoint: /sbin/init
+    depends_on:
+      - mme
+
+  sgwu:
+    container_name: 4_sgwu
+    build:
+      context: ./coreimages-run/4_sgwu
+      dockerfile: containerfile
+    restart: unless-stopped
+    networks:
+      default_network_name:
+        ipv4_address: default_ip.6
+    stdin_open: true
+    tty: true
+    privileged: true
+    entrypoint: /sbin/init
+    depends_on:
+      - sgwc
+
+  udr:
+    container_name: 5_udr
+    build:
+      context: ./coreimages-run/5_udr
+      dockerfile: containerfile
+    restart: unless-stopped
+    networks:
+      default_network_name:
+        ipv4_address: default_ip.20
+    stdin_open: true
+    tty: true
+    privileged: true
+    entrypoint: /sbin/init
+    depends_on:
+      - mongo
+
+  udm:
+    container_name: 5_udm
+    build:
+      context: ./coreimages-run/5_udm
+      dockerfile: containerfile
+    restart: unless-stopped
+    networks:
+      default_network_name:
+        ipv4_address: default_ip.12
+    stdin_open: true
+    tty: true
+    privileged: true
+    entrypoint: /sbin/init
+    depends_on:
+      - udr
+
+  smf:
+    container_name: 5_smf
+    build:
+      context: ./coreimages-run/5_smf
+      dockerfile: containerfile
+    restart: unless-stopped
+    networks:
+      default_network_name:
+        ipv4_address: default_ip.4
+    stdin_open: true
+    tty: true
+    privileged: true
+    entrypoint: /sbin/init
+    depends_on:
+      - pcrf
+
+  amf:
+    container_name: 5_amf
+    build:
+      context: ./coreimages-run/5_amf
+      dockerfile: containerfile
+    restart: unless-stopped
+    networks:
+      default_network_name:
+        ipv4_address: default_ip.5
+    stdin_open: true
+    tty: true
+    privileged: true
+    entrypoint: /sbin/init
+
+  upf:
+    container_name: 5_upf
+    build:
+      context: ./coreimages-run/5_upf
+      dockerfile: containerfile
+    restart: unless-stopped
+    networks:
+      default_network_name:
+        ipv4_address: default_ip.7
+    stdin_open: true
+    tty: true
+    privileged: true
+    entrypoint: /sbin/init
+
+  nrf:
+    container_name: 5_nrf
+    build:
+      context: ./coreimages-run/5_nrf
+      dockerfile: containerfile
+    restart: unless-stopped
+    networks:
+      default_network_name:
+        ipv4_address: default_ip.10
+    stdin_open: true
+    tty: true
+    privileged: true
+    entrypoint: /sbin/init
+
+  scp:
+    container_name: 5_scp
+    build:
+      context: ./coreimages-run/5_scp
+      dockerfile: containerfile
+    restart: unless-stopped
+    networks:
+      default_network_name:
+        ipv4_address: default_ip.200
+    stdin_open: true
+    tty: true
+    privileged: true
+    entrypoint: /sbin/init
+
+  ausf:
+    container_name: 5_ausf
+    build:
+      context: ./coreimages-run/5_ausf
+      dockerfile: containerfile
+    restart: unless-stopped
+    networks:
+      default_network_name:
+        ipv4_address: default_ip.11
+    stdin_open: true
+    tty: true
+    privileged: true
+    entrypoint: /sbin/init
+
+  pcf:
+    container_name: 5_pcf
+    build:
+      context: ./coreimages-run/5_pcf
+      dockerfile: containerfile
+    restart: unless-stopped
+    networks:
+      default_network_name:
+        ipv4_address: default_ip.13
+    stdin_open: true
+    tty: true
+    privileged: true
+    entrypoint: /sbin/init
+
+  nssf:
+    container_name: 5_nssf
+    build:
+      context: ./coreimages-run/5_nssf
+      dockerfile: containerfile
+    restart: unless-stopped
+    networks:
+      default_network_name:
+        ipv4_address: default_ip.14
+    stdin_open: true
+    tty: true
+    privileged: true
+    entrypoint: /sbin/init
+
+  bsf:
+    container_name: 5_bsf
+    build:
+      context: ./coreimages-run/5_udm
+      dockerfile: containerfile
+    restart: unless-stopped
+    networks:
+      default_network_name:
+        ipv4_address: default_ip.15
+    stdin_open: true
+    tty: true
+    privileged: true
+    entrypoint: /sbin/init
