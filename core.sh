@@ -83,11 +83,11 @@ make_db_container() {
     podman run -idt --restart="always" --privileged \
            --net core --ip "$1.1" --name tmp ubuntu:default /sbin/init
 
-    cp ./baseimage/db_container.sh ./baseimage/db_container_run.sh
-    sed -i "s/default_ip/$1.1/g" ./baseimage/db_container_run.sh
-    podman cp ./baseimage/db_container_run.sh tmp:/
+    cp ./baseimage/db-container.sh ./baseimage/db-container-run.sh
+    sed -i "s/default_ip/$1.1/g" ./baseimage/db-container-run.sh
+    podman cp ./baseimage/db-container-run.sh tmp:/
 
-    podman exec -it tmp /bin/bash ./db_container-run.sh
+    podman exec -it tmp /bin/bash ./db-container-run.sh
 
     sleep 3
 
