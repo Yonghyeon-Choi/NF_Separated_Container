@@ -54,17 +54,19 @@ sctp_check() {
   elif [[("$ckcurtos" == *ubuntu*)]] || \
       [[("$ckcurtos" == *debian*)]]; then
     echo "debian"; os="debian";
-    sctpox=`apt list --installed || grep kernel-modules-extra`
+    sctpox=`apt list --installed | grep libsctp-dev`
   else
     die "Please check OS version.";
   fi
-
-  if [ -z "$os" ]; then
-    if [$os == "centos"]; then
-      yum install -y kernel-modules-extra
-      modprobe sctp
-    elif [$os == "ubuntu"]; then
-      apt update && apt install -y libsctp-dev lksctp-tools
+  
+  if [ -z "$sctpox" ]; then
+    if [ -z "$os" ]; then
+      if [$os == "centos"]; then
+        yum install -y kernel-modules-extra
+        modprobe sctp
+      elif [$os == "ubuntu"]; then
+        apt update && apt install -y libsctp-dev lksctp-tools
+      fi
     fi
   else
     msg "${GREEN}'kernel-modules-extra' is already installed.${NOFORMAT}"
@@ -102,6 +104,7 @@ make_db_container() {
 }
 
 run() {
+  sysctl -w fs.inotify.max_user_instances=1024
   sctp_check
   echo "Create 5G network : Range $1.x/24, Bridge Slave NIC Name $2"
  
@@ -123,37 +126,39 @@ run() {
   cp -r ./coreimages coreimages-run
   sed -i "s/default_ip/$1/g" ./coreimages-run/*/*
 
-  cp podman-compose.yml podman-compose-run.yml
-  sed -i "s/default_network_name/core/g" ./podman-compose-run.yml
-  sed -i "s/default_ip/$1/g" ./podman-compose-run.yml
+  cp podman-compose.yml podman-compose.run.yml
+  sed -i "s/default_network_name/core/g" ./podman-compose.run.yml
+  sed -i "s/default_ip/$1/g" ./podman-compose.run.yml
 
-  podman-compose -f podman-compose-run.yml up -d
+  podman-compose -f podman-compose.run.yml up -d
   core_net_name=`podman network ls | grep core | awk '{ print $2 }'`
   pod_cni_nic=`podman network inspect $core_net_name | grep network_interface | awk '{ print $2 }'`
   nmcli con add type bridge-slave ifname "$2" master "${pod_cni_nic:1:-2}"
   podman exec -it 5_upf /bin/bash ./iptable-set.sh  
 
   echo && echo
-  echo "###################################################################################"
+  echo "################################################################################################################################################################"
   podman ps -a
-  echo "###################################################################################"
+  echo "################################################################################################################################################################"
   echo && echo
 }
 
 stop_n_remove() {
   echo
   podman ps -a
-  podman-compose -f podman-compose-run.yml down
-  rm -rf podman-compose-run.yml
+  podman-compose -f podman-compose.run.yml down
+  rm -rf podman-compose.run.yml
   rm -rf ./baseimage/db_container-run.sh
   rm -rf ./coreimages-run
-  
-  slave_nic=`nmcli con show | grep bridge-slave | awk '{ print $1 }'`
-  core_net_name=`podman network ls | grep core | awk '{ print $2 }'`
+ 
+  core_net_name=`podman network ls | grep core | awk '{ print $2 }'` 
+  slave_nic1=`nmcli con show | grep bridge-slave | awk '{ print $1 }'`
+  slave_nic2=`podman network inspect $core_net_name | grep network_interface | awk '{ print $2 }'` 
   echo
   nmcli con show
   echo
-  nmcli con del ${slave_nic}
+  nmcli con del ${slave_nic1}
+  nmcli dev del ${slave_nic2:1:-2}
   echo
   nmcli con show
   echo
@@ -163,10 +168,10 @@ stop_n_remove() {
   echo
   nmcli con show
   echo && echo
-  echo "###############################################################################"
+  echo "############################################################################################################################################################"
   podman ps -a
   echo
-  echo "###############################################################################"
+  echo "############################################################################################################################################################"
   echo && echo
 }
 
