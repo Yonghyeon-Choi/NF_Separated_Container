@@ -13,7 +13,8 @@ sysctl -w net.ipv4.ip_forward=1
 sysctl -w net.ipv6.conf.all.forwarding=1
 iptables -t nat -A POSTROUTING -s 10.45.0.0/16 ! -o ogstun -j MASQUERADE
 ip6tables -t nat -A POSTROUTING -s 2001:db8:cafe::/48 ! -o ogstun -j MASQUERADE
+
+# Prevent UE from connecting to UPF host
 iptables -I INPUT -i ogstun -j ACCEPT
 iptables -I INPUT -s 10.45.0.0/16 -j DROP
-ip6tables -I INPUT -s 2001:db8:cafe::/48 -j DROP
-iptables -I FORWARD -s 10.45.0.0/16 -d $CONIP.0/24 -j DROP
+

@@ -16,7 +16,7 @@ apt-get install nodejs -y
 curl -fsSL https://open5gs.org/open5gs/assets/webui/install | bash -
 
 systemctl stop mongod
-CONIP=default_ip
+CONIP=0.0.0.0
 sed -i "s/127.0.0.1/$CONIP/g" /etc/mongod.conf
 systemctl start mongod
 systemctl status mongod
