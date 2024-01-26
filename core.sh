@@ -80,18 +80,21 @@ make_db_container() {
   if [ -z "$ckimage" ]; then
     podman network create --subnet "$1.0/24" --gateway "$1.254" core
     podman network ls
-    podman network inspect core
+    podman network inspect core 
 
-    podman run -idt --restart="always" --privileged \
+    podman run -idt --restart="always" --privileged -v ./data:/data \
            --net core --ip "$1.1" --name tmp ubuntu:default /sbin/init
 
-    cp ./baseimage/db-container.sh ./baseimage/db-container-run.sh
-    sed -i "s/default_ip/$1.1/g" ./baseimage/db-container-run.sh
-    podman cp ./baseimage/db-container-run.sh tmp:/
-
+    cp ./coreimages/1_mongo/db-container.sh ./coreimages/1_mongo/db-container-run.sh
+    sed -i "s/default_ip/$1.1/g" ./coreimages/1_mongo/db-container-run.sh
+    podman cp ./coreimages/1_mongo/db-container-run.sh tmp:/
     podman exec -it tmp /bin/bash ./db-container-run.sh
+    rm -rf ./coreimages/1_mongo/db-container-run.sh
 
     sleep 3
+
+    podman cp ./coreimages/1_mongo/db-backup.sh tmp:/
+    podman exec -it tmp /bin/bash ./db-backup.sh
 
     podman commit tmp 1_mongo:latest
 
@@ -148,7 +151,6 @@ stop_n_remove() {
   podman ps -a
   podman-compose -f podman-compose.run.yml down
   rm -rf podman-compose.run.yml
-  rm -rf ./baseimage/db_container-run.sh
   rm -rf ./coreimages-run
  
   core_net_name=`podman network ls | grep core | awk '{ print $2 }'` 

@@ -1,4 +1,4 @@
 podman-compose.run.yml
-data/
 baseimage/*run.sh
 coreimages-run/
+data/

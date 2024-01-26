@@ -20,7 +20,8 @@ services:
       default_network_name:
         ipv4_address: default_ip.1
     volumes:
-      - ./data:/data/db
+      - './data:/data'
+    entrypoint: ['bash', 'cp', '-rf', '/data/*', '/var/lib/mongodb/']
     stdin_open: true
     tty: true
     privileged: true
