@@ -21,7 +21,10 @@ services:
         ipv4_address: default_ip.1
     volumes:
       - './data:/data'
-    entrypoint: ['bash', 'cp', '-rf', '/data/*', '/var/lib/mongodb/']
+    command: 
+      sh -c '
+        mongorestore --host 0.0.0.0 --port 27017 /data
+      '
     stdin_open: true
     tty: true
     privileged: true
