@@ -85,12 +85,10 @@ make_db_container() {
     podman run -idt --restart="always" --privileged -v ./data:/data \
            --net core --ip "$1.1" --name tmp ubuntu:default /sbin/init
 
-    cp ./coreimages/1_mongo/db-container.sh ./coreimages/1_mongo/db-container-run.sh
-    sed -i "s/default_ip/$1.1/g" ./coreimages/1_mongo/db-container-run.sh
-    podman cp ./coreimages/1_mongo/db-container-run.sh tmp:/
-    podman exec -it tmp /bin/bash ./db-container-run.sh
-    rm -rf ./coreimages/1_mongo/db-container-run.sh
-
+    podman cp ./coreimages/1_mongo/db-container.sh tmp:/
+    podman exec -it tmp /bin/bash ./db-container.sh
+    
+    podman cp ./coreimages/1_mongo/start.sh tmp:/
     sleep 3
 
     podman cp ./coreimages/1_mongo/db-backup.sh tmp:/
@@ -134,6 +132,7 @@ run() {
   sed -i "s/default_ip/$1/g" ./podman-compose.run.yml
 
   podman-compose -f podman-compose.run.yml up -d
+  podman exec -it 1_mongo ./start.sh
   core_net_name=`podman network ls | grep core | awk '{ print $2 }'`
   pod_cni_nic=`podman network inspect $core_net_name | grep network_interface | awk '{ print $2 }'`
   nmcli con add type bridge-slave ifname "$2" master "${pod_cni_nic:1:-2}"
