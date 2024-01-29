@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if ! grep "upf" /proc/net/dev > /dev/null; then
+    ip tuntap add name upf mode tun
+fi
+ip add del UPFIP/24 dev upf 2> /dev/null
+ip add add UPFIP/24 dev upf
+ip link set upf up
+
 if ! grep "ogstun" /proc/net/dev > /dev/null; then
     ip tuntap add name ogstun mode tun
 fi 
@@ -18,3 +25,4 @@ ip6tables -t nat -A POSTROUTING -s 2001:db8:cafe::/48 ! -o ogstun -j MASQUERADE
 iptables -I INPUT -i ogstun -j ACCEPT
 iptables -I INPUT -s 10.45.0.0/16 -j DROP
 
+systemctl restart open5gs-upfd

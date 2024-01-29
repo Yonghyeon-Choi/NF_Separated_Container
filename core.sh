@@ -168,6 +168,16 @@ stop_n_remove() {
   podman network ls
   echo
   nmcli con show
+  
+  iptables -D INPUT 2
+  iptables -D INPUT 1
+  nmcli con del ogstun
+  nmcli dev del ogstun
+  nmcli con del upf
+  nmcli dev del upf
+  nmcli con show
+  nmcli dev status
+  iptables -L
   echo && echo
   echo "############################################################################################################################################################"
   podman ps -a

@@ -186,9 +186,13 @@ services:
       context: ./coreimages-run/5_upf
       dockerfile: containerfile
     restart: unless-stopped
-    networks:
-      default_network_name:
-        ipv4_address: default_ip.7
+    network_mode: "host"
+#    networks:
+#      default_network_name:
+#        ipv4_address: default_ip.7
+#      host:
+#      #        ipv4_address: 192.168.2.224
+    
     stdin_open: true
     tty: true
     privileged: true

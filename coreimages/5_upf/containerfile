@@ -2,7 +2,9 @@ FROM ubuntu:default
 
 ENV CONIP=default_ip
 RUN apt-get install -y open5gs-upf &&\
-    sed -i "s/127.0.0/$CONIP/g" /etc/open5gs/upf.yaml
+    sed -i "s/127.0.0/$CONIP/g" /etc/open5gs/upf.yaml &&\
+    sed -i "s/$CONIP.7/$CONIP.252/g" /etc/open5gs/upf.yaml
 
 ADD iptable-set.sh iptable-set.sh
+RUN sed -i "s/UPFIP/$CONIP.252/g" /iptable-set.sh
 ENTRYPOINT ["./iptable-set.sh"]
