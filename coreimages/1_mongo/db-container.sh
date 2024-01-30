@@ -11,7 +11,7 @@ curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dea
 NODE_MAJOR=20
 echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
 apt-get update
-apt-get install nodejs -y
+apt-get install cron nodejs -y
 
 curl -fsSL https://open5gs.org/open5gs/assets/webui/install | bash -
 
@@ -27,4 +27,4 @@ netstat -nap | grep "$CONIP:27017"
 # db.accounts.find()
 
 sed -i "s/localhost/$CONIP/g" /usr/lib/node_modules/open5gs/server/index.js
-sed -i "s/9999/3000/g" /usr/lib/node_modules/open5gs/server/index.js
+sed -i "s/9999/7070/g" /usr/lib/node_modules/open5gs/server/index.js
