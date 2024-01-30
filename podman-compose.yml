@@ -187,12 +187,9 @@ services:
       dockerfile: containerfile
     restart: unless-stopped
     network_mode: "host"
-#    networks:
-#      default_network_name:
-#        ipv4_address: default_ip.7
-#      host:
-#      #        ipv4_address: 192.168.2.224
-    
+      #    networks:
+      #      default_network_name:
+      #        ipv4_address: default_ip.7
     stdin_open: true
     tty: true
     privileged: true

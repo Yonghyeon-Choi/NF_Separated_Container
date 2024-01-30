@@ -177,7 +177,7 @@ stop_n_remove() {
   nmcli dev del upf
   nmcli con show
   nmcli dev status
-  iptables -L
+  iptables -L  
   echo && echo
   echo "############################################################################################################################################################"
   podman ps -a

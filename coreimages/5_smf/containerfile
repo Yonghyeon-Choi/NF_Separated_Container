@@ -3,6 +3,5 @@ FROM ubuntu:default
 ENV CONIP=default_ip
 RUN apt-get install -y open5gs-smf &&\
     sed -i "s/127.0.0/$CONIP/g" /etc/freeDiameter/smf.conf &&\
-    sed -i "s/127.0.0/$CONIP/g" /etc/open5gs/smf.yaml &&\
-    sed -i "s/$CONIP.7/$CONIP.252/g" /etc/open5gs/smf.yaml
+    sed -i "s/127.0.0/$CONIP/g" /etc/open5gs/smf.yaml
 
