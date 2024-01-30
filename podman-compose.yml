@@ -25,92 +25,7 @@ services:
     tty: true
     privileged: true
     entrypoint: /sbin/init
-
-#  hss:
-#    container_name: 4_hss
-#    build:
-#      image: hss:latest
-#      context: ./coreimages-run/4_hss
-#      dockerfile: containerfile
-#    restart: unless-stopped
-#    networks:
-#      default_network_name:
-#        ipv4_address: default_ip.8
-#    stdin_open: true
-#    tty: true
-#    privileged: true
-#    entrypoint: /sbin/init
-#    depends_on:
-#      - mongo
-
-#  pcrf:
-#    container_name: 4_pcrf
-#    build:
-#      image: pcrf:latest
-#      context: ./coreimages-run/4_pcrf
-#      dockerfile: containerfile
-#    restart: unless-stopped
-#    networks:
-#      default_network_name:
-#        ipv4_address: default_ip.9
-#    stdin_open: true
-#    tty: true
-#    privileged: true
-#    entrypoint: /sbin/init
-#    depends_on:
-#      - mongo
-
-#  mme:
-#    container_name: 4_mme
-#    build:
-#      image: mme:latest
-#      context: ./coreimages-run/4_mme
-#      dockerfile: containerfile
-#    restart: unless-stopped
-#    networks:
-#      default_network_name:
-#        ipv4_address: default_ip.2
-#    stdin_open: true
-#    tty: true
-#    privileged: true
-#    entrypoint: /sbin/init
-#    depends_on:
-#      - hss
-
-#  sgwc:
-#    container_name: 4_sgwc
-#    build:
-#      image: sgwc:latest
-#      context: ./coreimages-run/4_sgwc
-#      dockerfile: containerfile
-#    restart: unless-stopped
-#    networks:
-#      default_network_name:
-#        ipv4_address: default_ip.3
-#    stdin_open: true
-#    tty: true
-#    privileged: true
-#    entrypoint: /sbin/init
-#    depends_on:
-#      - mme
-
-#  sgwu:
-#    container_name: 4_sgwu
-#    build:
-#      image: sgwu:latest
-#      context: ./coreimages-run/4_sgwu
-#      dockerfile: containerfile
-#    restart: unless-stopped
-#    networks:
-#      default_network_name:
-#        ipv4_address: default_ip.6
-#    stdin_open: true
-#    tty: true
-#    privileged: true
-#    entrypoint: /sbin/init
-#    depends_on:
-#      - sgwc
-
+    
   udr:
     container_name: 5_udr
     build:
@@ -298,3 +213,88 @@ services:
     entrypoint: /sbin/init
     depends_on:
       - udr
+      
+#  hss:
+#    container_name: 4_hss
+#    build:
+#      image: hss:latest
+#      context: ./coreimages-run/4_hss
+#      dockerfile: containerfile
+#    restart: unless-stopped
+#    networks:
+#      default_network_name:
+#        ipv4_address: default_ip.8
+#    stdin_open: true
+#    tty: true
+#    privileged: true
+#    entrypoint: /sbin/init
+#    depends_on:
+#      - mongo
+
+#  pcrf:
+#    container_name: 4_pcrf
+#    build:
+#      image: pcrf:latest
+#      context: ./coreimages-run/4_pcrf
+#      dockerfile: containerfile
+#    restart: unless-stopped
+#    networks:
+#      default_network_name:
+#        ipv4_address: default_ip.9
+#    stdin_open: true
+#    tty: true
+#    privileged: true
+#    entrypoint: /sbin/init
+#    depends_on:
+#      - mongo
+
+#  mme:
+#    container_name: 4_mme
+#    build:
+#      image: mme:latest
+#      context: ./coreimages-run/4_mme
+#      dockerfile: containerfile
+#    restart: unless-stopped
+#    networks:
+#      default_network_name:
+#        ipv4_address: default_ip.2
+#    stdin_open: true
+#    tty: true
+#    privileged: true
+#    entrypoint: /sbin/init
+#    depends_on:
+#      - hss
+
+#  sgwc:
+#    container_name: 4_sgwc
+#    build:
+#      image: sgwc:latest
+#      context: ./coreimages-run/4_sgwc
+#      dockerfile: containerfile
+#    restart: unless-stopped
+#    networks:
+#      default_network_name:
+#        ipv4_address: default_ip.3
+#    stdin_open: true
+#    tty: true
+#    privileged: true
+#    entrypoint: /sbin/init
+#    depends_on:
+#      - mme
+
+#  sgwu:
+#    container_name: 4_sgwu
+#    build:
+#      image: sgwu:latest
+#      context: ./coreimages-run/4_sgwu
+#      dockerfile: containerfile
+#    restart: unless-stopped
+#    networks:
+#      default_network_name:
+#        ipv4_address: default_ip.6
+#    stdin_open: true
+#    tty: true
+#    privileged: true
+#    entrypoint: /sbin/init
+#    depends_on:
+#      - sgwc
