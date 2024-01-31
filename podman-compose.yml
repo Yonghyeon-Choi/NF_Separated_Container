@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
     ports:
       - 27017:27017
-      - 3000:3000
+      - 7070:7070
     networks:
       default_network_name:
         ipv4_address: default_ip.1
