@@ -1,11 +1,13 @@
-# NF_handling_v_podman-compose
-
 - dependencies
   - podman
   - podman-compose
+ 
+- environment
+  - any vm or physical server
+  - any linux that cent or deb
   - connected 8.8.8.8
 
-- Usage
+- usage
   - ./core.sh -net xxx.xxx.xxx -name yyyy\
     -net        : Network range to create container network boundary. (xxx.xxx.xxx (String='Number+dot', ex.172.126.0))\
     -name       : Slave NIC Network name. (yyyy (String, ex. ens8))
