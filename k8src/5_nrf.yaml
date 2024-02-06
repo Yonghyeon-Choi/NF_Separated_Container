@@ -1,0 +1,20 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-4.6.2
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2024-02-06T08:58:30Z"
+  labels:
+    app: 5nrf-pod
+  name: 5nrf-pod
+spec:
+  containers:
+  - image: localhost/nf_separated_container_nrf:latest
+    name: 5nrf
+    securityContext:
+      privileged: true
+    stdin: true
+    tty: true
+

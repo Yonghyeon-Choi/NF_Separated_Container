@@ -1,0 +1,38 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-4.6.2
+
+# NOTE: If you generated this yaml from an unprivileged and rootless podman container on an SELinux
+# enabled system, check the podman generate kube man page for steps to follow to ensure that your pod/container
+# has the right permissions to access the volumes added.
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2024-02-06T08:56:41Z"
+  labels:
+    app: 1mongo-pod
+  name: 1mongo-pod
+spec:
+  containers:
+  - image: localhost/1_mongo:latest
+    name: 1mongo
+    ports:
+    - containerPort: 7070
+      hostPort: 7070
+    - containerPort: 27017
+      hostPort: 27017
+    securityContext:
+      privileged: true
+    stdin: true
+    tty: true
+    volumeMounts:
+    - mountPath: /data
+      name: root-NF_Separated_Container-data-host-0
+  volumes:
+  - hostPath:
+      path: /root/NF_Separated_Container/data
+      type: Directory
+    name: root-NF_Separated_Container-data-host-0
+
