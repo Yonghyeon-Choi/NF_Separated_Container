@@ -10,13 +10,13 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  creationTimestamp: "2024-02-06T08:56:41Z"
+  creationTimestamp: "2024-02-07T00:57:15Z"
   labels:
     app: 1mongo-pod
   name: 1mongo-pod
 spec:
   containers:
-  - image: localhost/1_mongo:latest
+  - image: localhost/mongo:latest
     name: 1mongo
     ports:
     - containerPort: 7070

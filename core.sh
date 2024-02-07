@@ -76,25 +76,19 @@ sctp_check() {
 }
 
 make_db_container() {
-  ckimage=`podman images | grep 1_mongo`
+  ckimage=`podman images | grep mongo`
   if [ -z "$ckimage" ]; then
     podman network create --subnet "$1.0/24" --gateway "$1.254" core
     podman network ls
     podman network inspect core 
 
-    podman run -idt --restart="always" --privileged -v ./data:/data \
+    podman run -idt --restart="always" --privileged -v ./data:/data/db \
            --net core --ip "$1.1" --name tmp ubuntu:default /sbin/init
 
     podman cp ./coreimages/1_mongo/db-container.sh tmp:/
     podman exec -it tmp /bin/bash ./db-container.sh
     
-    podman cp ./coreimages/1_mongo/start.sh tmp:/
-    sleep 3
-
-    podman cp ./coreimages/1_mongo/db-backup.sh tmp:/
-    podman exec -it tmp /bin/bash ./db-backup.sh
-
-    podman commit tmp 1_mongo:latest
+    podman commit tmp mongo:latest
 
     podman stop tmp && podman rm tmp
 
@@ -117,6 +111,11 @@ run() {
   #   EOF
   # fi
   
+  groupadd mongodb -g 2000
+  useradd mongodb -u 2000 -g mongodb-s /usr/sbin/nologin
+  usermod -aG mongodb mongodb
+
+    
   ckimage=`podman images | grep ubuntu:default`
   if [ -z "$ckimage" ]; then
     podman build -t ubuntu:default -f ./baseimage/containerfile
@@ -132,7 +131,6 @@ run() {
   sed -i "s/default_ip/$1/g" ./podman-compose.run.yml
 
   podman-compose -f podman-compose.run.yml up -d
-  podman exec -it 1_mongo ./start.sh
   core_net_name=`podman network ls | grep core | awk '{ print $2 }'`
   pod_cni_nic=`podman network inspect $core_net_name | grep network_interface | awk '{ print $2 }'`
   nmcli con add type bridge-slave ifname "$2" master "${pod_cni_nic:1:-2}"
