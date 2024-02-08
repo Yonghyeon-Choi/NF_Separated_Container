@@ -5,7 +5,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  creationTimestamp: "2024-02-07T00:04:07Z"
+  creationTimestamp: "2024-02-08T04:01:44Z"
   labels:
     app: 5upf-pod
   name: 5upf-pod
