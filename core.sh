@@ -129,11 +129,17 @@ run() {
   cp podman-compose.yml podman-compose.run.yml
   sed -i "s/default_network_name/core/g" ./podman-compose.run.yml
   sed -i "s/default_ip/$1/g" ./podman-compose.run.yml
+  sed -i "s/parent_name/$2/g" ./podman-compose.run.yml
 
   podman-compose -f podman-compose.run.yml up -d
-  core_net_name=`podman network ls | grep core | awk '{ print $2 }'`
-  pod_cni_nic=`podman network inspect $core_net_name | grep network_interface | awk '{ print $2 }'`
-  nmcli con add type bridge-slave ifname "$2" master "${pod_cni_nic:1:-2}"
+  #core_net_name=`podman network ls | grep core | awk '{ print $2 }'`
+  #pod_cni_nic=`podman network inspect $core_net_name | grep network_interface | awk '{ print $2 }'`
+  #nmcli con add type bridge-slave ifname "$2" master "${pod_cni_nic:1:-2}"
+  podman network create -d macvlan \
+	  --subnet=192.168.2.0/24 \
+	  --gateway=192.168.2.254 \
+	  -o parent=eno1 dn
+  podman network connect --ip 192.168.2.224 dn 5_upf 
   podman exec -it 5_upf /bin/bash ./iptable-set.sh  
 
   echo && echo

@@ -2,11 +2,23 @@ version: "3"
 
 networks:
   default_network_name:
-    driver: bridge
+    driver: macvlan
+    driver_opts:
+      parent: eno4
     ipam:
       config:
         - subnet: default_ip.0/24
           gateway: default_ip.254
+          dns: 8.8.8.8
+            #  dn:
+            #    driver: macvlan
+            #    driver_opts:
+            #      parent: eno1
+            #    ipam:
+            #      config:
+            #        - subnet: 192.168.2.0/24
+            #          gateway: 192.168.2.254
+            #          dns: 8.8.8.8
 
 services:
   mongo:
@@ -101,10 +113,12 @@ services:
       context: ./coreimages-run/5_upf
       dockerfile: containerfile
     restart: unless-stopped
-    network_mode: "host"
-      #    networks:
-      #      default_network_name:
-      #        ipv4_address: default_ip.7
+    #network_mode: "host"
+    networks:
+      default_network_name:
+        ipv4_address: default_ip.7
+    #  dn:
+    #    ipv4_address: 192.168.2.224
     stdin_open: true
     tty: true
     privileged: true
