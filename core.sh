@@ -168,6 +168,7 @@ stop_n_remove() {
   nmcli con show
   echo
   podman network rm ${core_net_name}
+  podman network rm dn
   echo
   podman network ls
   echo
