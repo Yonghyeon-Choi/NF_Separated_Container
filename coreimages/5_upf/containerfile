@@ -6,12 +6,12 @@ RUN apt-get install -y open5gs-upf &&\
     sed '1,2d' /etc/resolv.conf &&\
     echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 
-ADD iptable-set.sh iptable-set.sh
+RUN echo iptables-persistent iptables-persistent/autosave_v4 boolean false | debconf-set-selections &&\
+    echo iptables-persistent iptables-persistent/autosave_v6 boolean false | debconf-set-selections &&\
+    apt-get install -y iptables-persistent
 
-#RUN ./iptables.sh &&\
-#    iptables-persistent iptables-persistent/autosave_v4 boolean false | debconf-set-selections &&\
-#    iptables-persistent iptables-persistent/autosave_v4 boolean false | debconf-set-selections &&\
-#    apt-get -y install iptables-persistent
+ADD rules.v4 /etc/iptables/rules.v4
+ADD rules.v6 /etc/iptables/rules.v6
+ADD tunup-set.sh tunup-set.sh
 
-
-ENTRYPOINT ["./iptable-set.sh"]
+ENTRYPOINT ["./tunup-set.sh"]
