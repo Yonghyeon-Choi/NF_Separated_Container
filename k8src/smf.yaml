@@ -5,14 +5,14 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  creationTimestamp: "2024-02-21T03:49:15Z"
+  creationTimestamp: "2024-03-08T01:36:07Z"
   labels:
-    app: 5smf-pod
-  name: 5smf-pod
+    app: smf-pod
+  name: smf-pod
 spec:
   containers:
   - image: localhost/nf_separated_container_smf:latest
-    name: 5smf
+    name: smf
     securityContext:
       privileged: true
     stdin: true

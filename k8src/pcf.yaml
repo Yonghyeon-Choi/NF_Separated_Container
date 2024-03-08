@@ -5,16 +5,14 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  creationTimestamp: "2024-02-21T03:49:15Z"
+  creationTimestamp: "2024-03-08T01:36:08Z"
   labels:
-    app: 5upf-pod
-  name: 5upf-pod
+    app: pcf-pod
+  name: pcf-pod
 spec:
   containers:
-  - command:
-    - /sbin/init
-    image: localhost/nf_separated_container_upf:latest
-    name: 5upf
+  - image: localhost/nf_separated_container_pcf:latest
+    name: pcf
     securityContext:
       privileged: true
     stdin: true

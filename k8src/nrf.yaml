@@ -5,14 +5,14 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  creationTimestamp: "2024-02-21T03:49:15Z"
+  creationTimestamp: "2024-03-08T01:36:08Z"
   labels:
-    app: 5udr-pod
-  name: 5udr-pod
+    app: nrf-pod
+  name: nrf-pod
 spec:
   containers:
-  - image: localhost/nf_separated_container_udr:latest
-    name: 5udr
+  - image: localhost/nf_separated_container_nrf:latest
+    name: nrf
     securityContext:
       privileged: true
     stdin: true

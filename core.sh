@@ -139,8 +139,8 @@ run() {
 	  --subnet=192.168.2.0/24 \
 	  --gateway=192.168.2.254 \
 	  -o parent=eno1 dn
-  podman network connect --ip 192.168.2.224 dn 5_upf 
-  podman exec -it 5_upf /bin/bash ./iptable-set.sh  
+  podman network connect --ip 192.168.2.224 dn upf 
+  podman exec -it upf /bin/bash ./tunup-set.sh  
 
   echo && echo
   msg "${GREEN}################################################################################################################################################################"

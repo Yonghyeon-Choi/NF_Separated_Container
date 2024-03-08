@@ -10,15 +10,15 @@ networks:
         - subnet: default_ip.0/24
           gateway: default_ip.254
           dns: 8.8.8.8
-            #  dn:
-            #    driver: macvlan
-            #    driver_opts:
-            #      parent: eno1
-            #    ipam:
-            #      config:
-            #        - subnet: 192.168.2.0/24
-            #          gateway: 192.168.2.254
-            #          dns: 8.8.8.8
+#  dn:
+#    driver: macvlan
+#    driver_opts:
+#      parent: eno1
+#    ipam:
+#      config:
+#        - subnet: 192.168.2.0/24
+#          gateway: 192.168.2.254
+#          dns: 8.8.8.8
 
 services:
   mongo:
@@ -39,10 +39,10 @@ services:
     entrypoint: /sbin/init
     
   udr:
-    container_name: 5_udr
+    container_name: udr
     build:
       image: udr:latest
-      context: ./coreimages-run/5_udr
+      context: ./coreimages-run/udr
       dockerfile: containerfile
     restart: unless-stopped
     networks:
@@ -56,10 +56,10 @@ services:
       - mongo
 
   udm:
-    container_name: 5_udm
+    container_name: udm
     build:
       image: udm:latest
-      context: ./coreimages-run/5_udm
+      context: ./coreimages-run/udm
       dockerfile: containerfile
     restart: unless-stopped
     networks:
@@ -73,10 +73,10 @@ services:
       - udr
 
   smf:
-    container_name: 5_smf
+    container_name: smf
     build:
       image: smf:latest
-      context: ./coreimages-run/5_smf
+      context: ./coreimages-run/smf
       dockerfile: containerfile
     restart: unless-stopped
     networks:
@@ -90,10 +90,10 @@ services:
       - pcrf
 
   amf:
-    container_name: 5_amf
+    container_name: amf
     build:
       image: amf:latest
-      context: ./coreimages-run/5_amf
+      context: ./coreimages-run/amf
       dockerfile: containerfile
     restart: unless-stopped
     networks:
@@ -107,13 +107,12 @@ services:
       - udr
 
   upf:
-    container_name: 5_upf
+    container_name: upf
     build:
       image: upf:latest
-      context: ./coreimages-run/5_upf
+      context: ./coreimages-run/upf
       dockerfile: containerfile
     restart: unless-stopped
-    #network_mode: "host"
     networks:
       default_network_name:
         ipv4_address: default_ip.7
@@ -127,10 +126,10 @@ services:
       - udr
 
   nrf:
-    container_name: 5_nrf
+    container_name: nrf
     build:
       image: nrf:latest
-      context: ./coreimages-run/5_nrf
+      context: ./coreimages-run/nrf
       dockerfile: containerfile
     restart: unless-stopped
     networks:
@@ -144,10 +143,10 @@ services:
       - udr
 
   scp:
-    container_name: 5_scp
+    container_name: scp
     build:
       image: scp:latest
-      context: ./coreimages-run/5_scp
+      context: ./coreimages-run/scp
       dockerfile: containerfile
     restart: unless-stopped
     networks:
@@ -161,10 +160,10 @@ services:
       - udr
 
   ausf:
-    container_name: 5_ausf
+    container_name: ausf
     build:
       image: ausf:latest
-      context: ./coreimages-run/5_ausf
+      context: ./coreimages-run/ausf
       dockerfile: containerfile
     restart: unless-stopped
     networks:
@@ -178,10 +177,10 @@ services:
       - udr
 
   pcf:
-    container_name: 5_pcf
+    container_name: pcf
     build:
       image: pcf:latest
-      context: ./coreimages-run/5_pcf
+      context: ./coreimages-run/pcf
       dockerfile: containerfile
     restart: unless-stopped
     networks:
@@ -195,10 +194,10 @@ services:
       - udr
 
   nssf:
-    container_name: 5_nssf
+    container_name: nssf
     build:
       image: nssf:latest
-      context: ./coreimages-run/5_nssf
+      context: ./coreimages-run/nssf
       dockerfile: containerfile
     restart: unless-stopped
     networks:
@@ -212,10 +211,10 @@ services:
       - udr
 
   bsf:
-    container_name: 5_bsf
+    container_name: bsf
     build:
       image: bsf:latest
-      context: ./coreimages-run/5_bsf
+      context: ./coreimages-run/bsf
       dockerfile: containerfile
     restart: unless-stopped
     networks:
