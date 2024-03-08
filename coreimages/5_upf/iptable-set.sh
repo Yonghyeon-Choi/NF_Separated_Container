@@ -1,12 +1,5 @@
 #!/bin/bash
 
-if ! grep "upf" /proc/net/dev > /dev/null; then
-    ip tuntap add name upf mode tun
-fi
-ip add del UPFIP/24 dev upf 2> /dev/null
-ip add add UPFIP/24 dev upf
-ip link set upf up
-
 if ! grep "ogstun" /proc/net/dev > /dev/null; then
     ip tuntap add name ogstun mode tun
 fi 
