@@ -3,7 +3,7 @@ FROM ubuntu:default
 ENV CONIP=default_ip
 ENV TZ=Asia/Seoul
 RUN apt-get update && apt-get upgrade -y && \
-    apt-get install -y net-tools init systemd
+    apt-get install -y net-tools init systemd libsctp-dev lksctp-tools
 
 RUN ln -fs /usr/share/zoneinfo/Asia /etc/localtime && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata && \
@@ -20,6 +20,7 @@ RUN cd ~ && git clone https://github.com/aligungr/UERANSIM && \
 
 RUN sed -i "s/999/001/g" /root/UERANSIM/config/open5gs-gnb.yaml && \
     sed -i "s/70/01/g" /root/UERANSIM/config/open5gs-gnb.yaml && \
+    sed -i "s/linkIp: 127.0.0.1/linkIp: 0.0.0.0/g" /root/UERANSIM/config/open5gs-gnb.yaml && \
     sed -i "s/127.0.0.1/$CONIP.253/g" /root/UERANSIM/config/open5gs-gnb.yaml && \
     sed -i "s/127.0.0.5/$CONIP.5/g" /root/UERANSIM/config/open5gs-gnb.yaml
 
