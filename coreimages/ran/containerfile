@@ -3,7 +3,7 @@ FROM ubuntu:default
 ENV CONIP=default_ip
 ENV TZ=Asia/Seoul
 RUN apt-get update && apt-get upgrade -y && \
-    apt-get install -y net-tools init systemd libsctp-dev lksctp-tools
+    apt-get install -y net-tools init systemd
 
 RUN ln -fs /usr/share/zoneinfo/Asia /etc/localtime && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata && \
