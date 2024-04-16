@@ -1,0 +1,26 @@
+FROM ubuntu:default
+
+ENV CONIP=default_ip
+ENV TZ=Asia/Seoul
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y net-tools init systemd
+
+RUN ln -fs /usr/share/zoneinfo/Asia /etc/localtime && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata && \
+    apt-get install -y software-properties-common openssl libssl-dev git \
+    make gcc g++ libsctp-dev lksctp-tools iproute2 wget build-essential
+
+RUN apt-get install wget && cd ~ && \
+    wget https://github.com/Kitware/CMake/releases/download/v3.20.0/cmake-3.20.0.tar.gz && \
+    tar xzvf cmake-3.20.0.tar.gz && cd cmake-3.20.0 && \
+    ./bootstrap && make && make install
+
+RUN cd ~ && git clone https://github.com/aligungr/UERANSIM && \
+    cd ~/UERANSIM && make
+
+RUN sed -i "s/999/001/g" /root/UERANSIM/config/open5gs-gnb.yaml && \
+    sed -i "s/70/01/g" /root/UERANSIM/config/open5gs-gnb.yaml && \
+    sed -i "s/127.0.0.1/$CONIP.253/g" /root/UERANSIM/config/open5gs-gnb.yaml && \
+    sed -i "s/127.0.0.5/$CONIP.5/g" /root/UERANSIM/config/open5gs-gnb.yaml
+
+ENTRYPOINT ['/root/UERANSIM/build/nr-gnb -c /root/UERANSIM/config/open5gs-gnb.yaml']
