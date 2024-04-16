@@ -25,6 +25,7 @@ RUN sed -i "s/999/001/g" /root/UERANSIM/config/open5gs-gnb.yaml && \
     sed -i "s/127.0.0.5/$CONIP.5/g" /root/UERANSIM/config/open5gs-gnb.yaml
 
 RUN echo '#!/bin/bash' > start.sh && \
-    echo "\n\n/root/UERANSIM/build/nr-gnb -c /root/UERANSIM/config/open5gs-gnb.yaml" >> start.sh
+    echo "\n\n/root/UERANSIM/build/nr-gnb -c /root/UERANSIM/config/open5gs-gnb.yaml" >> start.sh && \
+    chmod 744 start.sh
 
 ENTRYPOINT ['/root/UERANSIM/build/nr-gnb -c /root/UERANSIM/config/open5gs-gnb.yaml']
