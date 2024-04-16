@@ -21,6 +21,22 @@ networks:
 #          dns: 8.8.8.8
 
 services:
+  ran:
+    container_name: ran
+    build:
+      image: ran:latest
+      context: ./coreimages-run/ran
+      dockerfile: containerfile
+    restart: unless-stopped
+    networks:
+      default_network_name:
+        ipv4_address: default_ip.253
+    stdin_open: true
+    tty: true
+    privileged: true
+    entrypoint: /sbin/init
+    depends_on:
+      - amf
   mongo:
     container_name: 1_mongo
     image: mongo:latest
