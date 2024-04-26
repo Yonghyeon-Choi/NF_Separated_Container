@@ -112,7 +112,7 @@ run() {
   # fi
   
   groupadd mongodb -g 2000
-  useradd mongodb -u 2000 -g mongodb-s /usr/sbin/nologin
+  useradd mongodb -u 2000 -g mongodb -s /usr/sbin/nologin
   usermod -aG mongodb mongodb
 
     
